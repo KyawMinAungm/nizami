@@ -8,7 +8,7 @@ export const slideInFromBottom : Variants = {
       transition: {
         duration : 0.5,
         type : "tween",
-
+        delay : 0.3
       },
     },
     exit: { opacity: 0, y: 100, transition: { duration: 0.3 } },
@@ -25,3 +25,23 @@ export const fadeIn : Variants =  {
     },
     exit: { opacity: 0, transition: { duration: 0.3 } },  // Optional exit state
   };
+
+export function slideInFormLeft(delay : number) :Variants {
+    return {
+        hidden : {opacity : 0, translateX : -100},
+        visible : {
+            opacity : 1,
+            translateX : 0,
+        
+            transition : {
+                duration : 0.5,
+                ease : 'easeInOut',
+                delay : delay
+            }
+        },
+        exit : {
+            opacity : 0,
+            translateX : -100
+        }
+    }
+}

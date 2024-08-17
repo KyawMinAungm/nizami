@@ -5,7 +5,7 @@ import ImageCard from "./ImageCard";
 import Image from "next/image";
 import { Movie } from "@/type";
 import { motion } from "framer-motion";
-import { fadeIn, slideInFromBottom } from "@/lib/motion";
+import { fadeIn, slideInFormLeft, slideInFromBottom } from "@/lib/motion";
 
 interface Props {
   todayPlaying: Movie[];
@@ -43,6 +43,17 @@ const Hero = ({ todayPlaying, playSoon }: Props) => {
           src={`https://image.tmdb.org/t/p/w1280${backDrop}`}
         />
       </motion.div>
+
+      <div className="absolute top-32 left-0 flex items-start flex-col">
+        <motion.div whileHover={{scale : 1.1}} variants={slideInFormLeft(0.5)} initial='hidden' animate='visible' exit='exit' className="  cursor-pointer flex justify-center items-center">
+            <span className="w-36 h-[1px] bg-white"/>
+            <p className="text-white text-lg italic">TODAY</p>
+        </motion.div>
+        <motion.div whileHover={{scale : 1.1}} variants={slideInFormLeft(0.8)} initial='hidden' animate='visible' exit='exit' className=" mt-5 cursor-pointer flex justify-center items-center">
+            <span className="w-32 h-[0.5px] bg-white"/>
+            <p className="text-white text-sm italic">SOON</p>
+        </motion.div>
+      </div>
 
       <motion.span
         variants={slideInFromBottom}
