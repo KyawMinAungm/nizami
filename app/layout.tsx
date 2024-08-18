@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Roboto as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import Navbar from "@/components/Navbar";
+import Head from "next/head";
 
 const fontSans = FontSans({weight : ['100','300','400','500','700','900'],subsets : ['latin'],variable : '--font-roboto'});
 
@@ -18,12 +20,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <link rel="icon" href="/favicon.svg" />
+      </Head>
       <body
         className={cn(
           "min-h-screen bg-[#121212]  text-white font-sans antialiased ",
           fontSans.variable
         )}
       >
+        <Navbar/>
         {children}
       </body>
     </html>

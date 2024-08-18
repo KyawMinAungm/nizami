@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Movie } from "@/type";
 import { motion } from "framer-motion";
 import { fadeIn, slideInFormLeft, slideInFromBottom } from "@/lib/motion";
+import { Scale } from "lucide-react";
 
 interface Props {
   todayPlaying: Movie[];
@@ -15,6 +16,7 @@ interface Props {
 const Hero = ({ todayPlaying, playSoon }: Props) => {
   const [backDrop, setBackDrop] = useState(todayPlaying[0].backdrop_path);
   const [loading, setLoading] = useState(true);
+  const [istoday, setIstoday] = useState(true);
   useEffect(() => {
     setLoading(true);
     setBackDrop(backDrop);
@@ -44,28 +46,64 @@ const Hero = ({ todayPlaying, playSoon }: Props) => {
         />
       </motion.div>
 
-      <div className="absolute top-32 left-0 flex items-start flex-col">
-        <motion.div whileHover={{scale : 1.1}} variants={slideInFormLeft(0.5)} initial='hidden' animate='visible' exit='exit' className="  cursor-pointer flex justify-center items-center">
-            <span className="w-36 h-[1px] bg-white"/>
-            <p className="text-white text-lg italic">TODAY</p>
-        </motion.div>
-        <motion.div whileHover={{scale : 1.1}} variants={slideInFormLeft(0.8)} initial='hidden' animate='visible' exit='exit' className=" mt-5 cursor-pointer flex justify-center items-center">
-            <span className="w-32 h-[0.5px] bg-white"/>
+      <div className="absolute top-32 z-10 left-0 flex items-start flex-col">
+        <div
+          className={`${
+            istoday && "scale-125"
+          } transition-all ease-in-out select-none`}
+        >
+          <motion.div
+            whileHover={{ scale: 1.2 }}
+            variants={slideInFormLeft(0.5)}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onClick={() => {
+              setMovies(today);
+              setIstoday(true);
+            }}
+            className={` cursor-pointer flex justify-center items-center`}
+          >
+            <span className="w-32 h-[0.5px] bg-white" />
+            <p className="text-white text-sm italic">TODAY</p>
+          </motion.div>
+        </div>
+        <div
+          className={`${
+            !istoday && "scale-125"
+          } transition-all ease-in-out select-none`}
+        >
+          <motion.div
+            whileHover={{ scale: 1.2 }}
+            variants={slideInFormLeft(0.8)}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onClick={() => {
+              setMovies(soon);
+              setIstoday(false);
+            }}
+            className={` mt-5 cursor-pointer flex justify-center items-center`}
+          >
+            <span className="w-32 h-[0.5px] bg-white" />
             <p className="text-white text-sm italic">SOON</p>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
 
       <motion.span
         variants={slideInFromBottom}
         initial="hidden"
         animate="visible"
+        
         className="bg-white left-0 w-full h-[1px] absolute bottom-20 "
       />
       <motion.div
         variants={slideInFromBottom}
         initial="hidden"
         animate="visible"
-        exit="exit"
+        exit='exit'
+        key={movies[0].id}
         className="absolute bottom-10 overflow-x-scroll scrollbar-hide left-0 px-10 w-full flex  gap-10 justify-start items-end "
       >
         {movies.map((movie) => (
